@@ -1,0 +1,19 @@
+import requests
+
+def get_crypto_price(coin_symbol):
+    url = f"https://api.coingecko.com/api/v3/simple/price?ids={coin_symbol}&vs_currencies=usd"
+    response = requests.get(url)
+    
+    if response.status_code == 200:
+        data = response.json()
+        if coin_symbol in data:
+            return data[coin_symbol]["usd"]
+        else:
+            return "Coin not found"
+    else:
+        return "Error fetching data"
+
+coin_symbol = input("Enter a cryptocurrency symbol (e.g., bitcoin, ethereum): ").lower()
+price = get_crypto_price(coin_symbol)
+
+print(f"The current price of {coin_symbol.upper()} is ${price}")
